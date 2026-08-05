@@ -1,0 +1,7 @@
+torch==2.13.0
+torchvision==0.28.0
+opencv-python==5.0.0.93
+matplotlib==3.11.1
+mmcv-lite==2.1.0
+mmengine==0.10.7
+mmdet==3.3.0
