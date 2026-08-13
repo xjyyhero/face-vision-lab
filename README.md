@@ -1,6 +1,14 @@
 # Face Vision Lab
 
-第一周智能视觉 AI 实习项目，围绕开发环境搭建、人脸识别基础、数据集探索、人脸检测、关键点定位与 LFW 人脸验证展开。
+智能视觉 AI 实习项目，围绕人脸检测、识别、关键点定位与视觉特效展开。
+
+## 第二周任务
+
+| 任务 | 内容 | 对应文件 |
+|---|---|---|
+| 3.1–3.3 | WIDER FACE 检测训练、评估与展示 | [`face_detection/05_wider_face_detection_training.ipynb`](face_detection/05_wider_face_detection_training.ipynb) |
+| 3.2 | MMDetection 配置与数据转换 | [`face_detection/retinanet_r50_fpn_wider_face.py`](face_detection/retinanet_r50_fpn_wider_face.py)、[`face_detection/wider_face_to_coco.py`](face_detection/wider_face_to_coco.py) |
+| 3.3 | 实验结果报告 | [`face_detection/experiment_report.md`](face_detection/experiment_report.md) |
 
 ## 第一周任务
 
@@ -17,6 +25,7 @@
 ```text
 face-vision-lab/
 ├── docs/                         # 环境文档与任务说明
+├── face_detection/               # 第二周检测训练、评估与报告
 ├── face_recognition/
 │   ├── 01_face_recognition_basics.ipynb
 │   ├── 02_dataset_exploration.ipynb
@@ -64,9 +73,14 @@ data/
 │   ├── list_attr_celeba.csv
 │   ├── identity_CelebA.txt
 │   └── list_eval_partition.csv
-└── lfw/
+├── lfw/
     ├── lfw-deepfunneled/
     └── pairs.csv
+└── WIDER_FACE/
+    ├── WIDER_train/images/
+    ├── WIDER_val/images/
+    ├── wider_face_annotations/wider_face_split/
+    └── annotations/
 ```
 
 ## Notebook 说明
