@@ -9,6 +9,7 @@
 | 3.1–3.3 | WIDER FACE 检测训练、评估与展示 | [`face_detection/05_wider_face_detection_training.ipynb`](face_detection/05_wider_face_detection_training.ipynb) |
 | 3.2 | MMDetection 配置与数据转换 | [`face_detection/retinanet_r50_fpn_wider_face.py`](face_detection/retinanet_r50_fpn_wider_face.py)、[`face_detection/wider_face_to_coco.py`](face_detection/wider_face_to_coco.py) |
 | 3.3 | 实验结果报告 | [`face_detection/experiment_report.md`](face_detection/experiment_report.md) |
+| 4.1–4.3 | 300W 关键点训练、NME 与人脸对齐 | [`face_landmarks/06_300w_hrnet_landmarks.ipynb`](face_landmarks/06_300w_hrnet_landmarks.ipynb) |
 
 ## 第一周任务
 
@@ -26,6 +27,7 @@
 face-vision-lab/
 ├── docs/                         # 环境文档与任务说明
 ├── face_detection/               # 第二周检测训练、评估与报告
+├── face_landmarks/               # 第二周关键点训练、NME 与对齐
 ├── face_recognition/
 │   ├── 01_face_recognition_basics.ipynb
 │   ├── 02_dataset_exploration.ipynb
