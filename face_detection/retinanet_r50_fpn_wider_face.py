@@ -43,6 +43,15 @@ val_evaluator = dict(
     ann_file=data_root + "annotations/wider_face_val.json",
     iou_thrs=[0.5],
     proposal_nums=(100, 300, 1000),
+    metric_items=(
+        "mAP",
+        "mAP_s",
+        "mAP_m",
+        "mAP_l",
+        "AR@100",
+        "AR@300",
+        "AR@1000",
+    ),
 )
 test_evaluator = val_evaluator
 

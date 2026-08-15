@@ -1,3 +1,7 @@
 tmp/
 .DS_Store
 data/
+checkpoints/
+work_dirs/
+__pycache__/
+*.py[cod]
