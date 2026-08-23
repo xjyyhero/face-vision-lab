@@ -2,6 +2,13 @@
 
 智能视觉 AI 实习项目，围绕人脸检测、识别、关键点定位与视觉特效展开。
 
+## 第三周任务
+
+| 任务 | 内容 | 对应文件 |
+|---|---|---|
+| 5.1–5.3 | MS-Celeb-1M 上训练 ResNet50 + ArcFace，并做 LFW 10 折验证 | [`face_recognition/07_arcface_training.ipynb`](face_recognition/07_arcface_training.ipynb)、[`face_recognition/arcface.py`](face_recognition/arcface.py)、[`face_recognition/arcface_config.json`](face_recognition/arcface_config.json) |
+| 6.1–6.3 | 动态量化、性能对比与 ONNX 推理 | [`face_recognition/08_model_optimization.ipynb`](face_recognition/08_model_optimization.ipynb) |
+
 ## 第二周任务
 
 | 任务 | 内容 | 对应文件 |
@@ -33,6 +40,10 @@ face-vision-lab/
 │   ├── 02_dataset_exploration.ipynb
 │   ├── 03_face_detection.ipynb
 │   ├── 04_face_landmarks.ipynb
+│   ├── 07_arcface_training.ipynb
+│   ├── 08_model_optimization.ipynb
+│   ├── arcface.py
+│   ├── arcface_config.json
 │   └── dataset_analysis.md
 ├── openCV_sample/                # OpenCV 图像处理示例
 ├── Dockerfile
@@ -62,7 +73,7 @@ face-vision-lab/
 jupyter notebook
 ```
 
-建议按 `01` 到 `04` 的顺序运行。
+前两周建议按 `01` 到 `06` 的顺序运行；第三周依次运行 `07` 和 `08`。
 
 ## 数据集目录
 
@@ -75,9 +86,14 @@ data/
 │   ├── list_attr_celeba.csv
 │   ├── identity_CelebA.txt
 │   └── list_eval_partition.csv
+├── MS-Celeb-1M/
+│   ├── train.rec
+│   ├── train.idx
+│   ├── property
+│   └── *.bin
 ├── lfw/
-    ├── lfw-deepfunneled/
-    └── pairs.csv
+│   ├── lfw-deepfunneled/
+│   └── pairs.csv
 └── WIDER_FACE/
     ├── WIDER_train/images/
     ├── WIDER_val/images/
@@ -108,6 +124,14 @@ data/
 - 混淆矩阵、ROC-AUC、ROC 曲线和相似度分布图。
 
 YuNet 和 SFace 权重会在首次运行时自动下载到 `data/models/`。
+
+### 07：ResNet50 + ArcFace 训练
+
+只使用 MS-Celeb-1M 或从中选取的真实子集训练 512 维人脸特征模型，不使用其他数据集替代。代码直接读取 InsightFace 的 `train.rec` 和 `train.idx`。默认配置针对单张 RTX 3080 的两小时预算，按 RecordIO 物理写入顺序保留 100 万张真实 MS1M 图像并重新映射其中实际出现的身份，训练 10 epochs，并在 1.7 小时达到硬上限时保存当前模型。LFW 使用原图与水平翻转图的融合特征进行独立 10 折验证；训练检查点、Loss/Accuracy 曲线和验证结果写入 `work_dirs/arcface_resnet50/`。
+
+### 08：模型优化与部署准备
+
+对任务 5 模型执行 Linear 动态量化，比较量化前后的模型大小、CPU 延迟和 LFW 准确率，并导出、检查和测试 ONNX 模型。最终模型写入 `output/models/`。
 
 ## Docker
 
