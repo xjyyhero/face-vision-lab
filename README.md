@@ -2,6 +2,29 @@
 
 智能视觉 AI 实习项目，围绕人脸检测、识别、关键点定位与视觉特效展开。
 
+## 项目结项
+
+项目已完成四周计划，形成从环境与数据准备，到人脸检测、关键点、识别、模型部署、属性编辑、3D 重建和实时特效的完整实验链路。完整总结见 [`项目结项报告`](output/项目结项报告_人脸识别与视觉特效.docx)。
+
+| 模块 | 代表性结果 |
+|---|---|
+| SFace 人脸验证 | LFW Accuracy：97.22% ± 0.60%，6000 对样本覆盖率 100% |
+| RetinaNet 人脸检测 | WIDER FACE mAP@0.5：0.536 |
+| HRNet 人脸关键点 | 300W Full NME：0.034686 |
+| ResNet50 + ArcFace | 训练准确率 98.91%；LFW Accuracy：80.27% ± 2.28%，尚未达到 98.5% 目标 |
+| ONNX Runtime 部署 | CPU 单图延迟 4.89 ms，约为 PyTorch FP32 的 3.29 倍速度 |
+| StarGAN 属性编辑 | FID：9.25；Inception Score：2.82 ± 0.09 |
+| 3DDFA_V2 重建 | 38,365 个顶点、76,073 个三角面；重建耗时 0.533 s |
+| 实时人脸特效 | CUDA 27.70 FPS，检测成功率 99.85%，相对 CPU 加速 1.32 倍 |
+
+## 第四周任务
+
+| 任务 | 内容 | 对应文件 |
+|---|---|---|
+| 7.1–7.3 | CelebA 上训练 StarGAN，编辑发色、年龄和性别，并计算 FID/IS | [`face_effects/09_stargan_attribute_editing.ipynb`](face_effects/09_stargan_attribute_editing.ipynb)、[`face_effects/stargan.py`](face_effects/stargan.py)、[`face_effects/stargan_config.json`](face_effects/stargan_config.json) |
+| 8.1–8.3 | 3DDFA_V2 单图 3DMM 重建、OBJ 导出与 OpenGL 多角度渲染 | **严格版：**[`face_effects/10_3d_face_reconstruction_strict.ipynb`](face_effects/10_3d_face_reconstruction_strict.ipynb)、[`face_effects/face_3d_strict.py`](face_effects/face_3d_strict.py)、[`face_effects/requirements_3d_strict.txt`](face_effects/requirements_3d_strict.txt)；**备用版：**[`face_effects/face_3d.py`](face_effects/face_3d.py) |
+| 9.1–9.3 | 实时关键点贴纸、磨皮美白、口红、演示视频与 FPS 分析 | [`face_effects/11_realtime_face_effects.ipynb`](face_effects/11_realtime_face_effects.ipynb)、[`face_effects/realtime_effects.py`](face_effects/realtime_effects.py) |
+
 ## 第三周任务
 
 | 任务 | 内容 | 对应文件 |
@@ -35,6 +58,7 @@ face-vision-lab/
 ├── docs/                         # 环境文档与任务说明
 ├── face_detection/               # 第二周检测训练、评估与报告
 ├── face_landmarks/               # 第二周关键点训练、NME 与对齐
+├── face_effects/                 # 第四周属性编辑、3D 重建与特效
 ├── face_recognition/
 │   ├── 01_face_recognition_basics.ipynb
 │   ├── 02_dataset_exploration.ipynb
@@ -46,6 +70,7 @@ face-vision-lab/
 │   ├── arcface_config.json
 │   └── dataset_analysis.md
 ├── openCV_sample/                # OpenCV 图像处理示例
+├── output/                       # 部署模型、阶段报告与项目结项报告
 ├── Dockerfile
 ├── requirements.txt
 └── test_env.ipynb
@@ -73,7 +98,7 @@ face-vision-lab/
 jupyter notebook
 ```
 
-前两周建议按 `01` 到 `06` 的顺序运行；第三周依次运行 `07` 和 `08`。
+前两周建议按 `01` 到 `06` 的顺序运行；第三周依次运行 `07` 和 `08`；第四周依次运行 `09`、`10` 和 `11`。
 
 ## 数据集目录
 
@@ -132,6 +157,18 @@ YuNet 和 SFace 权重会在首次运行时自动下载到 `data/models/`。
 ### 08：模型优化与部署准备
 
 对任务 5 模型执行 Linear 动态量化，比较量化前后的模型大小、CPU 延迟和 LFW 准确率，并导出、检查和测试 ONNX 模型。最终模型写入 `output/models/`。
+
+### 09：StarGAN 人脸属性编辑
+
+使用 CelebA 官方训练/测试划分训练一个 StarGAN v1 模型，通过单个生成器编辑黑发、金发、棕发、性别与年龄属性。训练采用 WGAN-GP、属性分类损失和循环重建损失，检查点与结果写入 `work_dirs/stargan_celeba/`。Notebook 输出多属性编辑对比图，并使用 ImageNet Inception-v3 计算 FID 与 Inception Score；这两个通用生成指标需结合属性编辑结果图共同判断。
+
+### 10：单图 3D 人脸重建
+
+严格版固定使用官方 3DDFA_V2 的 ONNX 推理路径，从单张图像回归 3DMM 参数并恢复稠密 BFM 网格，按官方拓扑导出带顶点颜色的 OBJ。随后用 pyrender/OpenGL 对同一网格生成左 35 度、正面、右 35 度三视图，并自动生成包含实际顶点数、三角面数、耗时和软件版本的实验报告，结果写入 `work_dirs/face_3d_strict/`。官方仓库固定到提交 `1b6c676`；为兼容 Windows，仅将 FaceBoxes 的 Cython NMS 换为该仓库自带的纯 Python NMS。原 MediaPipe + OpenCV 实现保留作快速备用，不作为严格版验收依据。
+
+### 11：实时人脸动态特效
+
+复用 MediaPipe 468 点实时人脸关键点，根据眼睛、额头、脸宽和嘴唇轮廓添加动态眼镜、帽子与口红，并在人脸区域执行磨皮和美白。Notebook 读取用户自己的真人视频，在完全相同的输入帧上输出 CPU/CUDA 特效演示视频，并生成 FPS、关键点耗时、特效耗时、人脸检测成功率和加速比报告；命令行程序也支持 Windows 摄像头输入。MediaPipe 关键点检测固定使用 CPU，CUDA 模式加速后续图像特效。
 
 ## Docker
 
