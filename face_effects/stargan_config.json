@@ -1,0 +1,20 @@
+{
+  "dataset_root": "data/CelebA",
+  "attributes": ["Black_Hair", "Blond_Hair", "Brown_Hair", "Male", "Young"],
+  "image_size": 128,
+  "batch_size": 16,
+  "num_workers": 4,
+  "epochs": 10,
+  "max_steps": 100000,
+  "max_training_hours": 2.0,
+  "generator_lr": 0.0001,
+  "discriminator_lr": 0.0001,
+  "beta1": 0.5,
+  "beta2": 0.999,
+  "lambda_cls": 1.0,
+  "lambda_rec": 10.0,
+  "lambda_gp": 10.0,
+  "n_critic": 5,
+  "evaluation_images": 5000,
+  "seed": 42
+}

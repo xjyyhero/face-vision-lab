@@ -1,0 +1,11 @@
+# Task 8 strict add-ons. PyTorch and OpenCV come from the existing project environment.
+numpy==1.26.4
+onnx>=1.14,<2
+onnxruntime>=1.16,<2
+PyYAML>=6,<7
+scipy>=1.10,<2
+scikit-image>=0.21,<1
+pyrender==0.1.45
+pyglet<2
+trimesh<5
+PyOpenGL==3.1.0

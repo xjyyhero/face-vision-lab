@@ -3,5 +3,6 @@ tmp/
 data/
 checkpoints/
 work_dirs/
+third_party/
 __pycache__/
 *.py[cod]
